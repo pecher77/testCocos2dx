@@ -1,20 +1,16 @@
-#pragma once
+﻿#pragma once
 
 class CharacterDescriptor
 {
 public:
+	//список инициализации, чтобы изюежать двойного копирования
 	CharacterDescriptor(
-		float accuracy,
-		float dexterity,
-		float maxHealth,
-		float maxArmor,
-		float aimTime)
+		float accuracy_,
+		float dexterity_,
+		float maxHealth_,
+		float maxArmor_,
+		float aimTime_) : accuracy(accuracy_), dexterity(dexterity_), maxHealth(maxHealth_), maxArmor(maxArmor_), aimTime(aimTime_)
 	{
-		this->accuracy = accuracy;
-		this->dexterity = dexterity;
-		this->maxHealth = maxHealth;
-		this->maxArmor = maxArmor;
-		this->aimTime = aimTime;
 	}
 
 	float accuracy;

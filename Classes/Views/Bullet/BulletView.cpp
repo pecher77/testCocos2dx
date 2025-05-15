@@ -2,9 +2,14 @@
 
 #include "BulletView.h"
 
+#include "Descriptors/WeaponDescriptor.h"
+#include "Models/Character/Character.h"
+#include "Models/Weapon/Weapon.h"
+#include "Broadcaster/Broadcaster.h"
 #include <cocos2d.h>
+#include "cocostudio/CocoStudio.h"
 
-bool BulletView::init(Weapon* weapon, Character* target, bool hit)
+bool BulletView::init(Weapon* weapon, std::shared_ptr<Character> target, bool hit)
 {
 	_weapon = weapon;
 	_target = target;
@@ -28,20 +33,9 @@ void BulletView::update(float deltaTime)
 	{
 		if (_hit)
 		{
-			CharacterDescriptor* targetDescriptor = _target->descriptor;
 			float damage = weaponDescriptor->damage;
-			if (_target->armor > 0)
-			{
-				_target->armor -= damage;
-			}
-			else if (_target->health > 0)
-			{
-				_target->health -= damage;
-			}
-			if (_target->armor <= 0 && _target->health <= 0)
-			{
-				_target->runAnimation("objects/Death.c3b", false);
-			}
+			//перенес нанесение урона в персонажа, чтобы инкапсулировать его здоровье
+			_target->receiveDamage(damage, _weapon->_characterId);
 		}
 
 		this->removeFromParentAndCleanup(true);

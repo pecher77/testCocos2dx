@@ -3,14 +3,13 @@
 #include "Views/Bullet/BulletView.h"
 #include "cocos2d.h"
 
+#include "Descriptors/WeaponDescriptor.h"
+
 USING_NS_CC;
 
-Weapon::Weapon(WeaponDescriptor* weapon, cocos2d::Sprite3D* owner, cocos2d::Node* root)
+Weapon::Weapon(WeaponDescriptor* weapon, cocos2d::Sprite3D* owner, cocos2d::Node* root, int charId) : descriptor(weapon), _owner(owner)
+			, _root(root), _ammo(descriptor->clipSize), _characterId(charId)
 {
-	descriptor = weapon;
-	_owner = owner;
-	_root = root;
-	_ammo = descriptor->clipSize;
 }
 
 bool Weapon::hasAmmo() const
@@ -43,7 +42,7 @@ void Weapon::update(float deltaTime)
 	}
 }
 
-void Weapon::fire(Character* character, bool hit)
+void Weapon::fire(Character::Ptr character, bool hit)
 {
 	if (_ammo > 0)
 	{
@@ -58,11 +57,19 @@ void Weapon::fire(Character* character, bool hit)
 		worldMat.transformPoint(&worldPosition);
 		Vec3 position = _owner->getPosition3D() + worldPosition * _owner->getScale();
 		Sprite3D* view = Sprite3D::create("objects/bullet.c3b", "objects/bullet.png");
+
+		if (descriptor->needApplyColor)
+		{
+			view->setColor(descriptor->bulletColor);
+		}
+		
+		view->setScale(view->getScale() * descriptor->bulletSizeMultiplier);
+
 		BulletView* bullet = BulletView::create(this, character, hit);
 
 		bullet->addChild(view);
 		bullet->setPosition3D(position);
-		view->setScale(1);
+		
 		view->setPosition3D(cocos2d::Vec3(0, 0, 0));
 
 		_root->addChild(bullet);

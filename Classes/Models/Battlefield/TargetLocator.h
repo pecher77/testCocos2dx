@@ -7,5 +7,5 @@ class Character;
 class TargetLocator
 {
 public:
-	virtual Character* getNearestAliveTarget(Character* character) = 0;
+	virtual Character::Ptr getNearestAliveTarget(Character::Ptr character) = 0;
 };
