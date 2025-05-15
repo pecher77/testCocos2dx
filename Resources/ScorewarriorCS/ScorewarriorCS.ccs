@@ -1,0 +1,12 @@
+<Solution>
+  <PropertyGroup Name="ScorewarriorCS" Version="2.3.1.1" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Project Name="MainScene.csd" Type="Scene3D" />
+        <Sprite3DFile Name="environment_mesh.c3b" />
+        <Image Name="environment_tex.png" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>
